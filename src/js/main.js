@@ -10,9 +10,8 @@ function compareTodos( todoA, todoB){
     return todoA.title.localeCompare(todoB.title);
 }
 
-window.addEventListener('load', () => {
+function updateToDoListOnScreen(){
     const todoListElement = document.getElementById('todolist');
-    console.log("Todo-List", todoListElement);
     todoListElement.innerHTML = '';
     
     for(const todo of todos.sort(compareTodos)){
@@ -23,5 +22,18 @@ window.addEventListener('load', () => {
     // todos-Array filter, sodass in offenen ToDos alle ToDos enthalten sind, bei denen: isDone= false
     const openTodos = todos.filter((t)=> !t.isDone);
     const countElement = document.getElementById('count');
-    countElement.innerText = openTodos.length; 
+    countElement.innerText = openTodos.length;   
+}
+
+window.addEventListener('load', (event) => {
+    updateToDoListOnScreen();
+    const newTodoElement = document.getElementById('newToDo');
+    newTodoElement.addEventListener('keydown',(event) => {
+        if(event.key === "Enter"){
+            const newTodo = new ToDo(newTodoElement.value, false);
+            todos.push(newTodo);
+            updateToDoListOnScreen();
+        }
+    });
+     
 });
