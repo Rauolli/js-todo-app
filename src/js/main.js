@@ -32,8 +32,21 @@ window.addEventListener('load', (event) => {
         if(event.key === "Enter"){
             const newTodo = new ToDo(newTodoElement.value, false);
             todos.push(newTodo);
+            newTodoElement.value = '';
+
+            newTodo.addEventListener('delete', (e) => {
+                const index = todos.indexOf(e.target);
+                todos.splice(index, 1);
+                updateToDoListOnScreen();
+            });
+
+            document.getElementById('cleanup')
+                .addEventListener('click', (ev) => {
+                    todos = todos.filter((t) => !t.isDone);
+                    updateToDoListOnScreen();
+                })
+
             updateToDoListOnScreen();
         }
     });
-     
 });

@@ -1,5 +1,6 @@
-export class ToDo{
+export class ToDo extends EventTarget{
     constructor(title, isDone){
+        super();
         this.title = title;
         this.isDone = isDone;
     }
@@ -30,6 +31,15 @@ export class ToDo{
             checkboxElement.setAttribute('checked', 'checked');
             divElement.className = "isdone";
         }
+
+        buttonElement.addEventListener('click', () => {
+            this.dispatchEvent(new Event('delete'));
+        });
+
+        checkboxElement.addEventListener('change', () => {
+            this.isDone = checkboxElement.checked;
+            divElement.className = this.isDone ? "isdone" : "";
+        })
 
         return liElement;
     }
